@@ -1,157 +1,122 @@
 import React from "react";
+import SidebarNavItem from "./SidebarNavItem";
+import SidebarNavLink from "./SidebarNavLink";
+
+const homeIcon = "fas fa-home";
+const bookIcon = "fas fa-book";
+const newBookIcon = "fas fa-book-medical";
+const list = "fas fa-list";
+const borrow = "fas fa-handshake";
+const newBorrow = "fas fa-hand-holding-medical";
+const booking = "fas fa-bookmark";
+const newBooking = "fas fa-address-book";
+const users = "fas fa-users";
+const newUser = "fas fa-user-plus";
+const employee = "fas fa-user-tie";
+const info = "fas fa-info";
 
 const Sidebar = () => {
   return (
     <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
       <div className="sb-sidenav-menu">
         <div className="nav">
-          <div className="sb-sidenav-menu-heading">Core</div>
-          <a className="nav-link" href="index.html">
-            <div className="sb-nav-link-icon">
-              <i className="fas fa-tachometer-alt"></i>
-            </div>
-            Dashboard
-          </a>
-          <div className="sb-sidenav-menu-heading">Interface</div>
-          <a
-            className="nav-link collapsed"
-            href="!#"
-            data-toggle="collapse"
-            data-target="#collapseLayouts"
-            aria-expanded="false"
-            aria-controls="collapseLayouts"
-          >
-            <div className="sb-nav-link-icon">
-              <i className="fas fa-columns"></i>
-            </div>
-            Layouts
-            <div className="sb-sidenav-collapse-arrow">
-              <i className="fas fa-angle-down"></i>
-            </div>
-          </a>
-          <div
-            className="collapse"
-            id="collapseLayouts"
-            aria-labelledby="headingOne"
-            data-parent="#sidenavAccordion"
-          >
-            <nav className="sb-sidenav-menu-nested nav">
-              <a className="nav-link" href="layout-static.html">
-                Static Navigation
-              </a>
-              <a className="nav-link" href="layout-sidenav-light.html">
-                Light Sidenav
-              </a>
-            </nav>
-          </div>
-          <a
-            className="nav-link collapsed"
-            href="!#"
-            data-toggle="collapse"
-            data-target="#collapsePages"
-            aria-expanded="false"
-            aria-controls="collapsePages"
-          >
-            <div className="sb-nav-link-icon">
-              <i className="fas fa-book-open"></i>
-            </div>
-            Pages
-            <div className="sb-sidenav-collapse-arrow">
-              <i className="fas fa-angle-down"></i>
-            </div>
-          </a>
-          <div
-            className="collapse"
-            id="collapsePages"
-            aria-labelledby="headingTwo"
-            data-parent="#sidenavAccordion"
-          >
-            <nav
-              className="sb-sidenav-menu-nested nav accordion"
-              id="sidenavAccordionPages"
-            >
-              <a
-                className="nav-link collapsed"
-                href="!#"
-                data-toggle="collapse"
-                data-target="#pagesCollapseAuth"
-                aria-expanded="false"
-                aria-controls="pagesCollapseAuth"
-              >
-                Authentication
-                <div className="sb-sidenav-collapse-arrow">
-                  <i className="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                className="collapse"
-                id="pagesCollapseAuth"
-                aria-labelledby="headingOne"
-                data-parent="#sidenavAccordionPages"
-              >
-                <nav className="sb-sidenav-menu-nested nav">
-                  <a className="nav-link" href="login.html">
-                    Login
-                  </a>
-                  <a className="nav-link" href="register.html">
-                    Register
-                  </a>
-                  <a className="nav-link" href="password.html">
-                    Forgot Password
-                  </a>
-                </nav>
-              </div>
-              <a
-                className="nav-link collapsed"
-                href="!#"
-                data-toggle="collapse"
-                data-target="#pagesCollapseError"
-                aria-expanded="false"
-                aria-controls="pagesCollapseError"
-              >
-                Error
-                <div className="sb-sidenav-collapse-arrow">
-                  <i className="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                className="collapse"
-                id="pagesCollapseError"
-                aria-labelledby="headingOne"
-                data-parent="#sidenavAccordionPages"
-              >
-                <nav className="sb-sidenav-menu-nested nav">
-                  <a className="nav-link" href="401.html">
-                    401 Page
-                  </a>
-                  <a className="nav-link" href="404.html">
-                    404 Page
-                  </a>
-                  <a className="nav-link" href="500.html">
-                    500 Page
-                  </a>
-                </nav>
-              </div>
-            </nav>
-          </div>
-          <div className="sb-sidenav-menu-heading">Addons</div>
-          <a className="nav-link" href="charts.html">
-            <div className="sb-nav-link-icon">
-              <i className="fas fa-chart-area"></i>
-            </div>
-            Charts
-          </a>
-          <a className="nav-link" href="tables.html">
-            <div className="sb-nav-link-icon">
-              <i className="fas fa-table"></i>
-            </div>
-            Tables
-          </a>
+          <div className="sb-sidenav-menu-heading">Seja bem-vindo</div>
+          <SidebarNavLink title={"Home"} icon={homeIcon} />
+
+          <div className="sb-sidenav-menu-heading">Livros</div>
+
+          <SidebarNavItem
+            title="Inventário"
+            icon={bookIcon}
+            navLinkData={[
+              {
+                navLinkTitle: "Adicionar livro",
+                navLinkUrl: "!#",
+                navLinkIcon: newBookIcon,
+              },
+              {
+                navLinkTitle: "Listar livros",
+                navLinkUrl: "!#",
+                navLinkIcon: list,
+              },
+            ]}
+          />
+
+          <SidebarNavItem
+            title="Empréstimos"
+            icon={borrow}
+            navLinkData={[
+              {
+                navLinkTitle: "Novo empréstimo",
+                navLinkUrl: "!#",
+                navLinkIcon: newBorrow,
+              },
+              {
+                navLinkTitle: "Listar empréstimos",
+                navLinkUrl: "!#",
+                navLinkIcon: list,
+              },
+            ]}
+          />
+
+          <SidebarNavItem
+            title="Reservas"
+            icon={booking}
+            navLinkData={[
+              {
+                navLinkTitle: "Nova reserva",
+                navLinkUrl: "!#",
+                navLinkIcon: newBooking,
+              },
+              {
+                navLinkTitle: "Listar reservas",
+                navLinkUrl: "!#",
+                navLinkIcon: list,
+              },
+            ]}
+          />
+
+          <div className="sb-sidenav-menu-heading">Usuários</div>
+          <SidebarNavItem
+            title="Usuários"
+            icon={users}
+            navLinkData={[
+              {
+                navLinkTitle: "Cadastrar usuário",
+                navLinkUrl: "!#",
+                navLinkIcon: newUser,
+              },
+              {
+                navLinkTitle: "Listar usuários",
+                navLinkUrl: "!#",
+                navLinkIcon: list,
+              },
+            ]}
+          />
+
+          <div className="sb-sidenav-menu-heading">Atendentes</div>
+          <SidebarNavItem
+            title="Atendentes"
+            icon={employee}
+            navLinkData={[
+              {
+                navLinkTitle: "Perfil",
+                navLinkUrl: "!#",
+                navLinkIcon: info,
+              },
+              {
+                navLinkTitle: "Cadastrar",
+                navLinkUrl: "!#",
+                navLinkIcon: newUser,
+              },
+              {
+                navLinkTitle: "Listar",
+                navLinkUrl: "!#",
+                navLinkIcon: list,
+              },
+            ]}
+          />
         </div>
-      </div>
-      <div className="sb-sidenav-footer">
-        <div className="small">Logged in as:</div>
-        Start Bootstrap
       </div>
     </nav>
   );

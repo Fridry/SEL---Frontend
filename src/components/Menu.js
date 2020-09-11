@@ -3,8 +3,8 @@ import React from "react";
 const Menu = ({ toggleSidebar }) => {
   return (
     <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-      <a className="navbar-brand" href="index.html">
-        Start Bootstrap
+      <a className="navbar-brand text-center" href="index.html">
+        <i class="fas fa-book-open"></i> Biblioteca
       </a>
 
       <button
@@ -15,24 +15,7 @@ const Menu = ({ toggleSidebar }) => {
         <i class="fas fa-bars"></i>
       </button>
 
-      <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div className="input-group">
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Search for..."
-            aria-label="Search"
-            aria-describedby="basic-addon2"
-          />
-          <div className="input-group-append">
-            <button className="btn btn-primary" type="button">
-              <i className="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
-      </form>
-
-      <ul className="navbar-nav ml-auto ml-md-0">
+      <ul className="navbar-nav ml-auto">
         <li className="nav-item dropdown">
           <a
             className="nav-link dropdown-toggle"
@@ -50,14 +33,17 @@ const Menu = ({ toggleSidebar }) => {
             aria-labelledby="userDropdown"
           >
             <a className="dropdown-item" href="!#">
-              Settings
+              <i class="far fa-id-badge"></i> Perfil
             </a>
             <a className="dropdown-item" href="!#">
-              Activity Log
+              <i class="fas fa-question"></i> Ajuda
+            </a>
+            <a className="dropdown-item" href="!#">
+              <i class="fas fa-user-cog"></i> Configurações
             </a>
             <div className="dropdown-divider"></div>
             <a className="dropdown-item" href="login.html">
-              Logout
+              <i class="fas fa-sign-out-alt"></i> Logout
             </a>
           </div>
         </li>
