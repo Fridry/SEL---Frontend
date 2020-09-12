@@ -28,7 +28,7 @@ const Template = ({ children, title }) => {
           <div id="layoutSidenav_content">
             <main>
               <div className="container-fluid">
-                <h1 className="mt-4">{title}</h1>
+                <h1 className="mt-2 text-center">{title}</h1>
                 {children}
               </div>
             </main>

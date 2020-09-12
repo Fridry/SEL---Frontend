@@ -1,0 +1,73 @@
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
+import NovoAtendente from "./pages/Atendentes/Novo";
+import ListarAtendentes from "./pages/Atendentes/Listar";
+import NovoEmprestimo from "./pages/Emprestimos/Novo";
+import ListarEmprestimos from "./pages/Emprestimos/Listar";
+import NovoLivro from "./pages/Livros/Novo";
+import ListarLivros from "./pages/Livros/Listar";
+import NovoReserva from "./pages/Reservas/Novo";
+import ListarReservas from "./pages/Reservas/Listar";
+import NovoUsuario from "./pages/Usuarios/Novo";
+import ListarUsuarios from "./pages/Usuarios/Listar";
+import NotFound from "./pages/404";
+
+const Routes = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+
+        <Route exact path="/novo-atendente">
+          <NovoAtendente />
+        </Route>
+
+        <Route exact path="/listar-atendentes">
+          <ListarAtendentes />
+        </Route>
+
+        <Route exact path="/novo-emprestimo">
+          <NovoEmprestimo />
+        </Route>
+
+        <Route exact path="/listar-emprestimos">
+          <ListarEmprestimos />
+        </Route>
+
+        <Route exact path="/novo-livro">
+          <NovoLivro />
+        </Route>
+
+        <Route exact path="/listar-livros">
+          <ListarLivros />
+        </Route>
+
+        <Route exact path="/novo-reserva">
+          <NovoReserva />
+        </Route>
+
+        <Route exact path="/listar-reservas">
+          <ListarReservas />
+        </Route>
+
+        <Route exact path="/novo-usuario">
+          <NovoUsuario />
+        </Route>
+
+        <Route exact path="/listar-usuarios">
+          <ListarUsuarios />
+        </Route>
+
+        <Route path="*">
+          <NotFound />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+
+export default Routes;

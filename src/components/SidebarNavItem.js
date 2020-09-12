@@ -27,8 +27,13 @@ const SidebarNavItem = ({ title, icon, navLinkData }) => {
         data-parent="#sidenavAccordion"
       >
         <nav className="sb-sidenav-menu-nested nav">
-          {navLinkData.map(({ navLinkTitle, navLinkIcon }) => (
-            <SidebarNavLink title={navLinkTitle} icon={navLinkIcon} />
+          {navLinkData.map(({ navLinkTitle, navLinkIcon, navLinkUrl }) => (
+            <SidebarNavLink
+              key={navLinkTitle}
+              title={navLinkTitle}
+              icon={navLinkIcon}
+              url={navLinkUrl}
+            />
           ))}
         </nav>
       </div>

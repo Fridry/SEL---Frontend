@@ -1,14 +1,12 @@
 import React from "react";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
-import Template from "./components/Template";
+import Routes from "./routes";
 
 function App() {
   return (
     <div>
-      <Template title="Homepage">
-        <h1>App Homepage</h1>
-      </Template>
+      <Routes />
     </div>
   );
 }

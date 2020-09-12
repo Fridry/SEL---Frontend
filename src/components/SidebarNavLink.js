@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const SidebarNavLink = ({ title, icon }) => {
+const SidebarNavLink = ({ title, icon, url }) => {
   return (
-    <a className="nav-link" href="index.html">
+    <Link className="nav-link" to={url}>
       <div className="sb-nav-link-icon">
-        <i class={icon}></i>
+        <i className={icon}></i>
       </div>
       {title}
-    </a>
+    </Link>
   );
 };
 

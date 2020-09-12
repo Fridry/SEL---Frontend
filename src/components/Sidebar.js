@@ -1,4 +1,5 @@
 import React from "react";
+
 import SidebarNavItem from "./SidebarNavItem";
 import SidebarNavLink from "./SidebarNavLink";
 
@@ -21,7 +22,7 @@ const Sidebar = () => {
       <div className="sb-sidenav-menu">
         <div className="nav">
           <div className="sb-sidenav-menu-heading">Seja bem-vindo</div>
-          <SidebarNavLink title={"Home"} icon={homeIcon} />
+          <SidebarNavLink title={"Home"} icon={homeIcon} url="/" />
 
           <div className="sb-sidenav-menu-heading">Livros</div>
 
@@ -31,12 +32,12 @@ const Sidebar = () => {
             navLinkData={[
               {
                 navLinkTitle: "Adicionar livro",
-                navLinkUrl: "!#",
+                navLinkUrl: "/novo-livro",
                 navLinkIcon: newBookIcon,
               },
               {
                 navLinkTitle: "Listar livros",
-                navLinkUrl: "!#",
+                navLinkUrl: "/listar-livros",
                 navLinkIcon: list,
               },
             ]}
@@ -48,12 +49,12 @@ const Sidebar = () => {
             navLinkData={[
               {
                 navLinkTitle: "Novo empréstimo",
-                navLinkUrl: "!#",
+                navLinkUrl: "/novo-emprestimo",
                 navLinkIcon: newBorrow,
               },
               {
                 navLinkTitle: "Listar empréstimos",
-                navLinkUrl: "!#",
+                navLinkUrl: "/listar-emprestimos",
                 navLinkIcon: list,
               },
             ]}
@@ -65,12 +66,12 @@ const Sidebar = () => {
             navLinkData={[
               {
                 navLinkTitle: "Nova reserva",
-                navLinkUrl: "!#",
+                navLinkUrl: "/novo-reserva",
                 navLinkIcon: newBooking,
               },
               {
                 navLinkTitle: "Listar reservas",
-                navLinkUrl: "!#",
+                navLinkUrl: "/listar-reservas",
                 navLinkIcon: list,
               },
             ]}
@@ -83,12 +84,12 @@ const Sidebar = () => {
             navLinkData={[
               {
                 navLinkTitle: "Cadastrar usuário",
-                navLinkUrl: "!#",
+                navLinkUrl: "/novo-usuario",
                 navLinkIcon: newUser,
               },
               {
                 navLinkTitle: "Listar usuários",
-                navLinkUrl: "!#",
+                navLinkUrl: "/listar-usuarios",
                 navLinkIcon: list,
               },
             ]}
@@ -106,12 +107,12 @@ const Sidebar = () => {
               },
               {
                 navLinkTitle: "Cadastrar",
-                navLinkUrl: "!#",
+                navLinkUrl: "/novo-atendente",
                 navLinkIcon: newUser,
               },
               {
                 navLinkTitle: "Listar",
-                navLinkUrl: "!#",
+                navLinkUrl: "/listar-atendentes",
                 navLinkIcon: list,
               },
             ]}
