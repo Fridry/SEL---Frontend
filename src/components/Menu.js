@@ -1,7 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Menu = ({ toggleSidebar }) => {
+  const history = useHistory();
+
+  const logout = () => {
+    localStorage.removeItem("@Token");
+    history.push("/login");
+  };
+
   return (
     <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
       <Link className="navbar-brand text-center" to="/">
@@ -43,9 +50,9 @@ const Menu = ({ toggleSidebar }) => {
               <i className="fas fa-user-cog"></i> Configurações
             </a>
             <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="login.html">
+            <button className="dropdown-item" onClick={logout}>
               <i className="fas fa-sign-out-alt"></i> Logout
-            </a>
+            </button>
           </div>
         </li>
       </ul>

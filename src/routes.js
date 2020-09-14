@@ -13,13 +13,20 @@ import ListarReservas from "./pages/Reservas/Listar";
 import NovoUsuario from "./pages/Usuarios/Novo";
 import ListarUsuarios from "./pages/Usuarios/Listar";
 import NotFound from "./pages/404";
+import Login from "./pages/Login";
+
+import PrivateRoute from "./utils/PrivateRoute";
 
 const Routes = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
+        <PrivateRoute exact path="/">
           <Home />
+        </PrivateRoute>
+
+        <Route exact path="/login">
+          <Login />
         </Route>
 
         <Route exact path="/novo-atendente">
