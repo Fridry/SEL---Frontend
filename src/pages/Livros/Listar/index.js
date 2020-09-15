@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import api from "../../../services/api";
+import { getToken, isAutenticated } from "../../../utils/Autentication";
 
 import Template from "../../../components/Template";
 import Detalhes from "../Detalhes";
 
 const Listar = () => {
-  const [livros, setLivros] = useState([{}]);
+  const [livros, setLivros] = useState([]);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
@@ -58,6 +59,18 @@ const Listar = () => {
     }
 
     setLoader(false);
+  };
+
+  const deleteLivro = async (id) => {
+    if (isAutenticated()) {
+      const token = await getToken();
+
+      const header = `Authorization: "Bearer ${token}"`;
+
+      await api.delete(`/livros/${id}`, {
+        headers: header,
+      });
+    }
   };
 
   const clear = () => {
@@ -138,22 +151,16 @@ const Listar = () => {
                   </td>
                 </tr>
               ) : (
-                livros.map((livro, index) => (
-                  <tr key={index}>
+                livros.map((livro) => (
+                  <tr key={livro.id}>
                     <th scope="row">{livro.id}</th>
                     <td>{livro.titulo}</td>
                     <td>{livro.autor}</td>
                     <td>{livro.editora}</td>
                     <td>{livro.disponivel ? "Disponível" : "Indisponível"}</td>
                     <td className="text-center">
-                      <button
-                        type="button"
-                        className="btn btn-info btn-sm m-1"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
-                      >
-                        <i className="fas fa-info-circle"></i>
-                      </button>
+                      <Detalhes livro={livro} />
+
                       <button
                         type="button"
                         className="btn btn-warning btn-sm m-1"
@@ -163,6 +170,7 @@ const Listar = () => {
                       <button
                         type="button"
                         className="btn btn-danger btn-sm m-1"
+                        onClick={() => deleteLivro(livro.id)}
                       >
                         <i className="fas fa-trash"></i>
                       </button>
