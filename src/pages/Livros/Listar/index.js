@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import api from "../../../services/api";
-import { getToken, isAutenticated } from "../../../utils/Autentication";
+import { isAutenticated } from "../../../utils/Autentication";
 
 import Template from "../../../components/Template";
 import Detalhes from "../Detalhes";
@@ -65,13 +65,7 @@ const Listar = () => {
   const deleteLivro = async (id) => {
     try {
       if (isAutenticated()) {
-        const token = getToken();
-
-        await api.delete(`/livros/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await api.delete(`/livros/${id}`);
 
         setMsg(["success", "Livro excluido com sucesso."]);
 
