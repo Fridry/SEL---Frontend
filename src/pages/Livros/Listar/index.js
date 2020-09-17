@@ -16,6 +16,7 @@ const Listar = () => {
   const [autor, setAutor] = useState("");
   const [limit, setLimit] = useState(10);
   const [loader, setLoader] = useState(false);
+  const [msg, setMsg] = useState([]);
 
   useEffect(() => {
     setLoader(true);
@@ -62,15 +63,25 @@ const Listar = () => {
   };
 
   const deleteLivro = async (id) => {
-    if (isAutenticated()) {
-      const token = await getToken();
+    try {
+      if (isAutenticated()) {
+        const token = getToken();
 
-      const header = `Authorization: "Bearer ${token}"`;
+        await api.delete(`/livros/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      await api.delete(`/livros/${id}`, {
-        headers: header,
-      });
+        setMsg(["success", "Livro excluido com sucesso."]);
+
+        setLivros(livros.filter((livro) => livro.id !== id));
+      }
+    } catch (error) {
+      setMsg(["danger", "Erro ao excluir livro."]);
     }
+
+    setTimeout(() => setMsg([]), 5000);
   };
 
   const clear = () => {
@@ -90,6 +101,11 @@ const Listar = () => {
         </div>
       ) : (
         <>
+          {msg[0] && (
+            <div className={`alert alert-${msg[0]} text-center`} role="alert">
+              {msg[1]}
+            </div>
+          )}
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <form className="form-inline my-2 my-lg-0 ml-auto">
               <input

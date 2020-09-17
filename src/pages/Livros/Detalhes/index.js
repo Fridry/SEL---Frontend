@@ -36,7 +36,7 @@ const Detalhes = ({ livro }) => {
             <div className="modal-body">
               <div className="container">
                 <div className="row">
-                  <div className="col-sm mr-3">
+                  <div className="col-sm mr-4">
                     <img
                       src={`http://localhost:3333/uploads/${livro.capa}`}
                       className="rounded mx-auto d-block"
