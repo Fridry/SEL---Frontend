@@ -14,7 +14,7 @@ const Novo = () => {
     copia: 1,
     isbn: "",
     numero_paginas: 0,
-    capa: 0,
+    capa: null,
   });
 
   const [msg, setMsg] = useState([]);
@@ -25,11 +25,50 @@ const Novo = () => {
     setLivro((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      let capa = e.target.files[0];
+
+      setLivro((prevState) => ({ ...prevState, capa }));
+    }
+  };
+
   const submitBook = async (e) => {
     e.preventDefault();
 
+    const data = new FormData();
+
+    const {
+      titulo,
+      autor,
+      sinopse,
+      editora,
+      serie,
+      volume,
+      copia,
+      isbn,
+      numero_paginas,
+      capa,
+    } = livro;
+
     try {
-      const result = await api.post("/livros", livro);
+      data.append("titulo", titulo);
+      data.append("autor", autor);
+      data.append("sinopse", sinopse);
+      data.append("editora", editora);
+      data.append("serie", serie);
+      data.append("volume", volume);
+      data.append("copia", copia);
+      data.append("isbn", isbn);
+      data.append("numero_paginas", numero_paginas);
+      data.append("capa", capa);
+
+      const result = await api.post("/livros", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImF0ZW5kZW50ZSIsImlhdCI6MTYwMDU1NTMzMiwiZXhwIjoxNjAwNjQxNzMyfQ.PO46mlLl-SymU6j15xhKarG5gt9E32kjyNj-z6p_It0`,
+        },
+      });
 
       console.log(result);
 
@@ -43,12 +82,13 @@ const Novo = () => {
         copia: 1,
         isbn: "",
         numero_paginas: 0,
-        capa: 0,
+        capa: null,
       });
 
       setMsg(["success", "Livro adicionado com sucesso."]);
     } catch (error) {
-      setMsg(["danger", "Erro ao excluir livro."]);
+      console.log({ error });
+      setMsg(["danger", "Erro ao adicionado o livro."]);
     }
 
     setTimeout(() => setMsg([]), 5000);
@@ -64,7 +104,7 @@ const Novo = () => {
             </div>
           )}
 
-          <form>
+          <form encType="multipart/form-data">
             <div className="form-group">
               <label htmlFor="titulo">Título</label>
               <input
@@ -195,7 +235,7 @@ const Novo = () => {
                 id="capa"
                 required
                 name="capa"
-                onChange={handleInputChange}
+                onChange={handleImageChange}
               />
             </div>
 
