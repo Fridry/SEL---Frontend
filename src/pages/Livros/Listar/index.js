@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import api from "../../../services/api";
 import { isAutenticated } from "../../../utils/Autentication";
@@ -171,12 +172,18 @@ const Listar = () => {
                     <td className="text-center">
                       <Detalhes livro={livro} />
 
-                      <button
+                      <Link
+                        to={{
+                          pathname: `/editar-livro/${livro.id}`,
+                          state: {
+                            livro,
+                          },
+                        }}
                         type="button"
                         className="btn btn-warning btn-sm m-1"
                       >
                         <i className="fas fa-pen"></i>
-                      </button>
+                      </Link>
                       <button
                         type="button"
                         className="btn btn-danger btn-sm m-1"

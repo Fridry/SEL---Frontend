@@ -8,6 +8,7 @@ import NovoEmprestimo from "./pages/Emprestimos/Novo";
 import ListarEmprestimos from "./pages/Emprestimos/Listar";
 import NovoLivro from "./pages/Livros/Novo";
 import ListarLivros from "./pages/Livros/Listar";
+import EditarLivros from "./pages/Livros/Editar";
 import NovoReserva from "./pages/Reservas/Novo";
 import ListarReservas from "./pages/Reservas/Listar";
 import NovoUsuario from "./pages/Usuarios/Novo";
@@ -52,6 +53,8 @@ const Routes = () => {
         <Route exact path="/listar-livros">
           <ListarLivros />
         </Route>
+
+        <Route exact path="/editar-livro/:id" component={EditarLivros} />
 
         <Route exact path="/novo-reserva">
           <NovoReserva />

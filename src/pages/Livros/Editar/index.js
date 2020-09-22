@@ -1,21 +1,38 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import api from "../../../services/api";
 import { getToken } from "../../../utils/Autentication";
 import Template from "../../../components/Template";
 
 const Novo = ({ location }) => {
+  const history = useHistory();
+
+  let {
+    id,
+    titulo,
+    autor,
+    sinopse,
+    editora,
+    serie,
+    volume,
+    copia,
+    isbn,
+    numero_paginas,
+    capa,
+  } = location.state.livro;
+
   const [livro, setLivro] = useState({
-    titulo: "",
-    autor: "",
-    sinopse: "",
-    editora: "",
-    serie: "",
-    volume: "",
-    copia: 1,
-    isbn: "",
-    numero_paginas: 0,
-    capa: null,
+    titulo,
+    autor,
+    sinopse,
+    editora,
+    serie: serie ? serie !== null : "",
+    volume: volume ? volume !== null : "",
+    copia,
+    isbn,
+    numero_paginas,
+    capa,
   });
 
   const [msg, setMsg] = useState([]);
@@ -66,7 +83,7 @@ const Novo = ({ location }) => {
       data.append("numero_paginas", numero_paginas);
       data.append("capa", capa);
 
-      await api.post("/livros", data, {
+      await api.put(`/livros/${id}`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${getToken()}`,
@@ -86,17 +103,19 @@ const Novo = ({ location }) => {
         capa: null,
       });
 
-      setMsg(["success", "Livro adicionado com sucesso."]);
+      setMsg(["success", "Livro atualizado com sucesso."]);
+
+      history.push("/listar-livros");
     } catch (error) {
       console.log({ error });
-      setMsg(["danger", "Erro ao adicionado o livro."]);
+      setMsg(["danger", "Erro ao atualizar o livro."]);
     }
 
     setTimeout(() => setMsg([]), 5000);
   };
 
   return (
-    <Template title="Novo Livro">
+    <Template title="Atualizar livro">
       <div className="card">
         <div className="card-body px-5">
           {msg[0] && (
@@ -239,23 +258,25 @@ const Novo = ({ location }) => {
                 onChange={handleImageChange}
               />
 
-              {imgPreview && (
-                <img
-                  src={imgPreview}
-                  className="rounded mx-auto d-block mt-3"
-                  alt={livro.titulo}
-                  style={{ height: 180 }}
-                />
-              )}
+              <img
+                src={
+                  imgPreview !== ""
+                    ? imgPreview
+                    : `http://localhost:3333/uploads/${capa}`
+                }
+                className="rounded mx-auto d-block mt-3"
+                alt={titulo}
+                style={{ height: 180 }}
+              />
             </div>
 
             <div className="form-group text-center">
               <button
-                className="btn btn-primary mt-5 btn-block"
+                className="btn btn-primary mt-4 btn-block"
                 type="submit"
                 onClick={submitBook}
               >
-                Salvar livro
+                Atualizar livro
               </button>
             </div>
           </form>
