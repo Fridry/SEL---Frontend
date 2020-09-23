@@ -53,6 +53,10 @@ const Novo = ({ location }) => {
     }
   };
 
+  const goBack = () => {
+    history.push("/listar-livros");
+  };
+
   const submitBook = async (e) => {
     e.preventDefault();
 
@@ -105,7 +109,7 @@ const Novo = ({ location }) => {
 
       setMsg(["success", "Livro atualizado com sucesso."]);
 
-      history.push("/listar-livros");
+      goBack();
     } catch (error) {
       console.log({ error });
       setMsg(["danger", "Erro ao atualizar o livro."]);
@@ -271,13 +275,26 @@ const Novo = ({ location }) => {
             </div>
 
             <div className="form-group text-center">
-              <button
-                className="btn btn-primary mt-4 btn-block"
-                type="submit"
-                onClick={submitBook}
-              >
-                Atualizar livro
-              </button>
+              <div className="row">
+                <div className="col-6">
+                  <button
+                    className="btn btn-primary float-left btn-block"
+                    type="submit"
+                    onClick={submitBook}
+                  >
+                    Atualizar livro
+                  </button>
+                </div>
+                <div className="col-6">
+                  <button
+                    className="btn btn-secondary float-right btn-block"
+                    type="submit"
+                    onClick={goBack}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
         </div>
