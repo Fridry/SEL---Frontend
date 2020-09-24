@@ -4,7 +4,7 @@ import api from "../../../services/api";
 import { getToken } from "../../../utils/Autentication";
 import Template from "../../../components/Template";
 
-const Novo = ({ location }) => {
+const Novo = () => {
   const [livro, setLivro] = useState({
     titulo: "",
     autor: "",
