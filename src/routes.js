@@ -13,6 +13,7 @@ import NovoReserva from "./pages/Reservas/Novo";
 import ListarReservas from "./pages/Reservas/Listar";
 import NovoUsuario from "./pages/Usuarios/Novo";
 import ListarUsuarios from "./pages/Usuarios/Listar";
+import EditarUsuario from "./pages/Usuarios/Editar";
 import NotFound from "./pages/404";
 import Login from "./pages/Login";
 
@@ -71,6 +72,8 @@ const Routes = () => {
         <Route exact path="/listar-usuarios">
           <ListarUsuarios />
         </Route>
+
+        <Route exact path="/editar-usuario/:id" component={EditarUsuario} />
 
         <Route path="*">
           <NotFound />

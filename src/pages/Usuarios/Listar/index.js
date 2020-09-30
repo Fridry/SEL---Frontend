@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import api from "../../../services/api";
-import { isAutenticated } from "../../../utils/Autentication";
+import { isAutenticated, getToken } from "../../../utils/Autentication";
 
 import Template from "../../../components/Template";
 import Detalhes from "../Detalhes";
@@ -61,16 +61,27 @@ const Listar = () => {
   };
 
   const deleteUsuario = async (id) => {
-    try {
-      if (isAutenticated()) {
-        await api.delete(`/usuarios/${id}`);
+    const confirmarExclusão = window.confirm(
+      "Tem certeza que deseja excluir o livro?"
+    );
 
-        setMsg(["success", "Usuário excluido com sucesso."]);
+    if (confirmarExclusão) {
+      try {
+        if (isAutenticated()) {
+          await api.delete(`/usuarios/${id}`, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${getToken()}`,
+            },
+          });
 
-        setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
+          setMsg(["success", "Usuário excluido com sucesso."]);
+
+          setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
+        }
+      } catch (error) {
+        setMsg(["danger", "Erro ao excluir usuário."]);
       }
-    } catch (error) {
-      setMsg(["danger", "Erro ao excluir usuário."]);
     }
 
     setTimeout(() => setMsg([]), 5000);

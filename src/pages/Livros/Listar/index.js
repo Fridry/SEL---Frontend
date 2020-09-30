@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import api from "../../../services/api";
-import { isAutenticated } from "../../../utils/Autentication";
+import { isAutenticated, getToken } from "../../../utils/Autentication";
 
 import Template from "../../../components/Template";
 import Detalhes from "../Detalhes";
@@ -65,18 +65,28 @@ const Listar = () => {
   };
 
   const deleteLivro = async (id) => {
-    try {
-      if (isAutenticated()) {
-        await api.delete(`/livros/${id}`);
+    const confirmarExclusão = window.confirm(
+      "Tem certeza que deseja excluir o livro?"
+    );
 
-        setMsg(["success", "Livro excluido com sucesso."]);
+    if (confirmarExclusão) {
+      try {
+        if (isAutenticated()) {
+          await api.delete(`/livros/${id}`, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${getToken()}`,
+            },
+          });
 
-        setLivros(livros.filter((livro) => livro.id !== id));
+          setMsg(["success", "Livro excluido com sucesso."]);
+
+          setLivros(livros.filter((livro) => livro.id !== id));
+        }
+      } catch (error) {
+        setMsg(["danger", "Erro ao excluir livro."]);
       }
-    } catch (error) {
-      setMsg(["danger", "Erro ao excluir livro."]);
     }
-
     setTimeout(() => setMsg([]), 5000);
   };
 
