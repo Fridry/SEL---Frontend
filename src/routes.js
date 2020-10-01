@@ -57,9 +57,7 @@ const Routes = () => {
 
         <Route exact path="/editar-livro/:id" component={EditarLivros} />
 
-        <Route exact path="/novo-reserva">
-          <NovoReserva />
-        </Route>
+        <Route exact path="/nova-reserva" component={NovoReserva} />
 
         <Route exact path="/listar-reservas">
           <ListarReservas />

@@ -14,7 +14,7 @@ const Listar = () => {
   const [totalPages, setTotalPages] = useState([]);
   const [total, setTotal] = useState(0);
   const [titulo, setTitulo] = useState("");
-  const [autor, setAutor] = useState("");
+  const [usuario, setUsuario] = useState("");
   const [limit, setLimit] = useState(10);
   const [loader, setLoader] = useState(false);
   const [msg, setMsg] = useState([]);
@@ -49,14 +49,14 @@ const Listar = () => {
     let queryUsuario = "";
 
     if (titulo !== "") queryTitulo = `&titulo=${titulo}`;
-    if (autor !== "") queryUsuario = `&autor=${autor}`;
+    if (usuario !== "") queryUsuario = `&usuario=${usuario}`;
 
     if (e.key === "Enter") {
       const response = await api.get(`/reservas?${queryTitulo}${queryUsuario}`);
 
       setReservas(response.data);
 
-      setAutor("");
+      setUsuario("");
       setTitulo("");
     }
 
@@ -130,10 +130,10 @@ const Listar = () => {
               <input
                 className="form-control mr-sm-2"
                 type="search"
-                placeholder="Pesquisar autor..."
+                placeholder="Pesquisar usuário..."
                 aria-label="Search"
-                value={autor}
-                onChange={(e) => setAutor(e.target.value)}
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
                 onKeyUp={search}
               />
 

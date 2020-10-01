@@ -10,7 +10,6 @@ const list = "fas fa-list";
 const borrow = "fas fa-handshake";
 const newBorrow = "fas fa-hand-holding-medical";
 const booking = "fas fa-bookmark";
-const newBooking = "fas fa-address-book";
 const users = "fas fa-users";
 const newUser = "fas fa-user-plus";
 const employee = "fas fa-user-tie";
@@ -60,21 +59,10 @@ const Sidebar = () => {
             ]}
           />
 
-          <SidebarNavItem
+          <SidebarNavLink
             title="Reservas"
             icon={booking}
-            navLinkData={[
-              {
-                navLinkTitle: "Nova reserva",
-                navLinkUrl: "/novo-reserva",
-                navLinkIcon: newBooking,
-              },
-              {
-                navLinkTitle: "Listar reservas",
-                navLinkUrl: "/listar-reservas",
-                navLinkIcon: list,
-              },
-            ]}
+            url="/listar-reservas"
           />
 
           <div className="sb-sidenav-menu-heading">Usuários</div>

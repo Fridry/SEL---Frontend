@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Detalhes = ({ livro }) => {
   return (
@@ -95,6 +96,38 @@ const Detalhes = ({ livro }) => {
                           <span className="h6">Status:</span>{" "}
                           {livro.motivo_indisponibilidade}
                         </p>
+                      </div>
+                    )}
+
+                    {livro.disponivel ? (
+                      <div className="row">
+                        <Link
+                          to={{
+                            pathname: `/`,
+                          }}
+                          type="button"
+                          className="btn btn-success btn-block"
+                        >
+                          Emprestar
+                        </Link>
+                      </div>
+                    ) : (
+                      <div className="row">
+                        <Link
+                          to={{
+                            pathname: "/nova-reserva",
+                            state: {
+                              id: livro.id,
+                              titulo: livro.titulo,
+                              autor: livro.autor,
+                            },
+                          }}
+                          type="button"
+                          className="btn btn-info btn-block"
+                          data-dismiss="modal"
+                        >
+                          Reservar
+                        </Link>
                       </div>
                     )}
                   </div>
