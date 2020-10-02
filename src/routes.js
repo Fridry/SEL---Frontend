@@ -39,9 +39,7 @@ const Routes = () => {
           <ListarAtendentes />
         </Route>
 
-        <Route exact path="/novo-emprestimo">
-          <NovoEmprestimo />
-        </Route>
+        <Route exact path="/novo-emprestimo" component={NovoEmprestimo} />
 
         <Route exact path="/listar-emprestimos">
           <ListarEmprestimos />

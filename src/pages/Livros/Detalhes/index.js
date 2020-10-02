@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Detalhes = ({ livro }) => {
   return (
@@ -9,11 +8,13 @@ const Detalhes = ({ livro }) => {
         className="btn btn-info btn-sm m-1"
         data-toggle="modal"
         data-target={`#detalhes${livro.id}`}
+        title="Detalhes do livro"
       >
         <i className="fas fa-info-circle"></i>
       </button>
       <div
         className="modal fade"
+        style={{ display: "none" }}
         id={`detalhes${livro.id}`}
         tabIndex="-1"
         aria-labelledby={`detalhes${livro.id}Label`}
@@ -96,38 +97,6 @@ const Detalhes = ({ livro }) => {
                           <span className="h6">Status:</span>{" "}
                           {livro.motivo_indisponibilidade}
                         </p>
-                      </div>
-                    )}
-
-                    {livro.disponivel ? (
-                      <div className="row">
-                        <Link
-                          to={{
-                            pathname: `/`,
-                          }}
-                          type="button"
-                          className="btn btn-success btn-block"
-                        >
-                          Emprestar
-                        </Link>
-                      </div>
-                    ) : (
-                      <div className="row">
-                        <Link
-                          to={{
-                            pathname: "/nova-reserva",
-                            state: {
-                              id: livro.id,
-                              titulo: livro.titulo,
-                              autor: livro.autor,
-                            },
-                          }}
-                          type="button"
-                          className="btn btn-info btn-block"
-                          data-dismiss="modal"
-                        >
-                          Reservar
-                        </Link>
                       </div>
                     )}
                   </div>

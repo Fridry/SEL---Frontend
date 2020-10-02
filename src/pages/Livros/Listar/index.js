@@ -181,6 +181,36 @@ const Listar = () => {
                     <td>{livro.editora}</td>
                     <td>{livro.disponivel ? "Disponível" : "Indisponível"}</td>
                     <td className="text-center">
+                      {livro.disponivel ? (
+                        <Link
+                          to={{
+                            pathname: `/novo-emprestimo`,
+                            state: livro,
+                          }}
+                          type="button"
+                          className="btn btn-success btn-sm m-1"
+                          title="Emprestar livro"
+                        >
+                          <i className="fas fa-handshake"></i>
+                        </Link>
+                      ) : (
+                        <Link
+                          to={{
+                            pathname: "/nova-reserva",
+                            state: {
+                              id: livro.id,
+                              titulo: livro.titulo,
+                              autor: livro.autor,
+                            },
+                          }}
+                          type="button"
+                          className="btn btn-secondary btn-sm m-1"
+                          title="Reservar livro"
+                        >
+                          <i className="fas fa-bookmark"></i>
+                        </Link>
+                      )}
+
                       <Detalhes livro={livro} />
 
                       <Link
@@ -192,6 +222,7 @@ const Listar = () => {
                         }}
                         type="button"
                         className="btn btn-warning btn-sm m-1"
+                        title="Atualizar livro"
                       >
                         <i className="fas fa-pen"></i>
                       </Link>
@@ -199,6 +230,7 @@ const Listar = () => {
                         type="button"
                         className="btn btn-danger btn-sm m-1"
                         onClick={() => deleteLivro(livro.id)}
+                        title="Excluir livro"
                       >
                         <i className="fas fa-trash"></i>
                       </button>
