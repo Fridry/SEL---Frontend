@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import api from "../../../services/api";
-import { isAutenticated, getToken } from "../../../utils/Autentication";
-
 import Template from "../../../components/Template";
 import Pagination from "../../../components/Pagination";
 
@@ -16,7 +15,6 @@ const Listar = () => {
   const [usuario, setUsuario] = useState("");
   const [limit, setLimit] = useState(10);
   const [loader, setLoader] = useState(false);
-  const [msg, setMsg] = useState([]);
 
   useEffect(() => {
     setLoader(true);
@@ -70,31 +68,6 @@ const Listar = () => {
     return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
   };
 
-  const deleteReserva = async (id) => {
-    const confirmarExclusão = window.confirm(
-      "Tem certeza que deseja encerrar a reserva?"
-    );
-
-    if (confirmarExclusão) {
-      try {
-        if (isAutenticated()) {
-          await api.delete(`/reservas/${id}`, {
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          });
-
-          setMsg(["success", "Reserva encerrada com sucesso."]);
-
-          setEmprestimo(emprestimo.filter((livro) => livro.id !== id));
-        }
-      } catch (error) {
-        setMsg(["danger", "Erro ao encerrar reserva."]);
-      }
-    }
-    setTimeout(() => setMsg([]), 5000);
-  };
-
   const clear = () => {
     setPage(1);
     setLimit(10);
@@ -112,11 +85,6 @@ const Listar = () => {
         </div>
       ) : (
         <>
-          {msg[0] && (
-            <div className={`alert alert-${msg[0]} text-center`} role="alert">
-              {msg[1]}
-            </div>
-          )}
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <form className="form-inline my-2 my-lg-0 ml-auto">
               <input
@@ -137,19 +105,6 @@ const Listar = () => {
                 onChange={(e) => setUsuario(e.target.value)}
                 onKeyUp={search}
               />
-
-              <div>
-                <label htmlFor="usuarioId">Usuário ID</label>
-                <input
-                  className="form-control mr-sm-2"
-                  type="date"
-                  placeholder="Pesquisar usuário..."
-                  aria-label="Search"
-                  value={usuario}
-                  onChange={(e) => setUsuario(e.target.value)}
-                  onKeyUp={search}
-                />
-              </div>
 
               <select
                 className="form-control"
@@ -175,7 +130,7 @@ const Listar = () => {
           <table className="table table-bordered table-sm table-hover">
             <thead className="thead-dark">
               <tr className="text-center">
-                <th scope="col">ID</th>
+                <th scope="row">ID</th>
                 <th scope="col">Usuário</th>
                 <th scope="col">Título</th>
                 <th scope="col">Autor</th>
@@ -195,8 +150,8 @@ const Listar = () => {
                 </tr>
               ) : (
                 emprestimo.map((emp) => (
-                  <tr key={emp.id}>
-                    <th scope="row">{emp.id}</th>
+                  <tr key={emp.id} className="text-center">
+                    <td>{emp.id}</td>
                     <td>{emp.nome}</td>
                     <td>{emp.titulo}</td>
                     <td>{emp.autor}</td>
@@ -212,14 +167,41 @@ const Listar = () => {
                     </td>
 
                     <td className="text-center">
-                      <button
-                        type="button"
-                        className="btn btn-dark btn-sm m-1"
-                        onClick={() => deleteReserva(emp.id)}
-                        title="Cancelar reserva"
-                      >
-                        <i className="fas fa-ban"></i>
-                      </button>
+                      {emp.devolvido ? (
+                        <button
+                          className="btn btn-success btn-sm m-1"
+                          title="Devolvido"
+                          disabled
+                        >
+                          <i className="fas fa-check"></i>
+                        </button>
+                      ) : (
+                        <>
+                          <Link
+                            to={{
+                              pathname: `/novo-emprestimo`,
+                              state: emp,
+                            }}
+                            type="button"
+                            className="btn btn-primary btn-sm m-1"
+                            title="Renovar livro"
+                          >
+                            <i className="fas fa-sync-alt"></i>
+                          </Link>
+
+                          <Link
+                            to={{
+                              pathname: `/devolucao`,
+                              state: emp,
+                            }}
+                            type="button"
+                            className="btn btn-success btn-sm m-1"
+                            title="Devolver livro"
+                          >
+                            <i className="fas fa-reply"></i>
+                          </Link>
+                        </>
+                      )}
                     </td>
                   </tr>
                 ))

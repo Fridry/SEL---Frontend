@@ -6,6 +6,7 @@ import NovoAtendente from "./pages/Atendentes/Novo";
 import ListarAtendentes from "./pages/Atendentes/Listar";
 import NovoEmprestimo from "./pages/Emprestimos/Novo";
 import ListarEmprestimos from "./pages/Emprestimos/Listar";
+import Devolucao from "./pages/Emprestimos/Editar";
 import NovoLivro from "./pages/Livros/Novo";
 import ListarLivros from "./pages/Livros/Listar";
 import EditarLivros from "./pages/Livros/Editar";
@@ -40,6 +41,8 @@ const Routes = () => {
         </Route>
 
         <Route exact path="/novo-emprestimo" component={NovoEmprestimo} />
+
+        <Route exact path="/devolucao" component={Devolucao} />
 
         <Route exact path="/listar-emprestimos">
           <ListarEmprestimos />
