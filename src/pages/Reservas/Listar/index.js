@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import api from "../../../services/api";
 import { isAutenticated, getToken } from "../../../utils/Autentication";
@@ -23,7 +22,7 @@ const Listar = () => {
     setLoader(true);
 
     api
-      .get(`/reservas?page=${page}&limit=${limit}`)
+      .get(`/reservas?page=${page}&limit=${limit}&orderCol=created_at`)
       .then((response) => {
         setTotal(response.headers["x-total-count"]);
 
@@ -52,7 +51,9 @@ const Listar = () => {
     if (usuario !== "") queryUsuario = `&usuario=${usuario}`;
 
     if (e.key === "Enter") {
-      const response = await api.get(`/reservas?${queryTitulo}${queryUsuario}`);
+      const response = await api.get(
+        `/reservas?${queryTitulo}${queryUsuario}&orderCol=created_at`
+      );
 
       setReservas(response.data);
 
@@ -164,6 +165,7 @@ const Listar = () => {
                 <th scope="col">ID</th>
                 <th scope="col">Usuário</th>
                 <th scope="col">Telefone</th>
+                <th scope="col">Email</th>
                 <th scope="col">Título</th>
                 <th scope="col">Autor</th>
                 <th scope="col">Data da reserva</th>
@@ -183,29 +185,18 @@ const Listar = () => {
                     <th scope="row">{reserva.id}</th>
                     <td>{reserva.nome}</td>
                     <td>{reserva.telefone}</td>
+                    <td>{reserva.email}</td>
                     <td>{reserva.titulo}</td>
                     <td>{reserva.autor}</td>
                     <td>{dataDaReserva(reserva.created_at)}</td>
                     <td className="text-center">
-                      <Link
-                        to={{
-                          pathname: `/editar-reserva/${reserva.id}`,
-                          state: {
-                            reserva,
-                          },
-                        }}
-                        type="button"
-                        className="btn btn-warning btn-sm m-1"
-                      >
-                        <i className="fas fa-pen"></i>
-                      </Link>
                       <button
                         type="button"
-                        className="btn btn-danger btn-sm m-1"
+                        className="btn btn-dark btn-sm m-1"
                         onClick={() => deleteReserva(reserva.id)}
                         title="Cancelar reserva"
                       >
-                        <i className="fas fa-trash"></i>
+                        <i className="fas fa-ban"></i>
                       </button>
                     </td>
                   </tr>
@@ -214,7 +205,7 @@ const Listar = () => {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={6} className="text-center">
+                <td colSpan={8} className="text-center">
                   <p>Total de livros cadastrados: {total}</p>
                 </td>
               </tr>
