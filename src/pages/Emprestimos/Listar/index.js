@@ -75,6 +75,20 @@ const Listar = () => {
     setTotalPages([]);
   };
 
+  const checkAtraso = (dataDev, devolvido) => {
+    if (!devolvido) {
+      let strData = dataDoEmprestimo(dataDev);
+      let partesData = strData.split("/");
+      let data = new Date(partesData[2], partesData[1] - 1, partesData[0]);
+
+      const style = { backgroundColor: "red", color: "white" };
+
+      return new Date() > data ? style : {};
+    } else {
+      return {};
+    }
+  };
+
   return (
     <Template title="Empréstimos">
       {loader ? (
@@ -90,6 +104,7 @@ const Listar = () => {
               <input
                 className="form-control mr-sm-2"
                 type="search"
+                id="titulo"
                 placeholder="Pesquisar título..."
                 aria-label="Search"
                 value={titulo}
@@ -118,6 +133,17 @@ const Listar = () => {
               </select>
 
               <button
+                className="btn btn-secondary ml-2"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                + Filtros
+              </button>
+
+              <button
                 type="button"
                 className="btn btn-secondary ml-2"
                 onClick={clear}
@@ -127,6 +153,75 @@ const Listar = () => {
             </form>
           </nav>
 
+          <div className="collapse" id="collapseExample">
+            <div className="card card-body">
+              <form>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <label htmlFor="dataParaDevolucao">
+                      Data para devolução
+                    </label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="dataParaDevolucao"
+                      placeholder="Data para devolução"
+                    />
+                  </div>
+
+                  <div className="form-group col-md-6">
+                    <label htmlFor="dataDeRetirada">Data de retirada</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="dataDeRetirada"
+                      placeholder="Data de retirada"
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <label htmlFor="inputEmail4">Data de devolução</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="dataDeEntrega"
+                      placeholder="Data de entrega"
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <label>Status</label>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="entregue"
+                        value="entregue"
+                      />
+                      <label className="form-check-label" htmlFor="entregue">
+                        Entregue
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="status"
+                        id="naoEntregue"
+                        value="não entregue"
+                      />
+                      <label className="form-check-label" htmlFor="naoEntregue">
+                        Não entregue
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
           <table className="table table-bordered table-sm table-hover">
             <thead className="thead-dark">
               <tr className="text-center">
@@ -135,7 +230,7 @@ const Listar = () => {
                 <th scope="col">Título</th>
                 <th scope="col">Autor</th>
                 <th scope="col">Data da retirada</th>
-                <th scope="col">Devolvido</th>
+                <th scope="col">Entrega</th>
                 <th scope="col">Data da devolução</th>
                 <th scope="col">Data para devolução</th>
                 <th scope="col">Ações</th>
@@ -155,14 +250,21 @@ const Listar = () => {
                     <td>{emp.nome}</td>
                     <td>{emp.titulo}</td>
                     <td>{emp.autor}</td>
+
                     <td>{dataDoEmprestimo(emp.data_de_retirada)}</td>
+
                     <td>{emp.devolvido ? "Sim" : "Não"}</td>
                     <td>
                       {emp.data_da_devolucao
                         ? dataDoEmprestimo(emp.data_da_devolucao)
                         : ""}
                     </td>
-                    <td>
+                    <td
+                      style={checkAtraso(
+                        emp.data_para_devolucao,
+                        emp.devolvido
+                      )}
+                    >
                       {dataDoEmprestimo(emp.data_para_devolucao.split(" ", 5))}
                     </td>
 
@@ -179,8 +281,8 @@ const Listar = () => {
                         <>
                           <Link
                             to={{
-                              pathname: `/novo-emprestimo`,
-                              state: emp,
+                              pathname: `/devolucao`,
+                              state: { renovacao: true, emp },
                             }}
                             type="button"
                             className="btn btn-primary btn-sm m-1"
@@ -192,7 +294,7 @@ const Listar = () => {
                           <Link
                             to={{
                               pathname: `/devolucao`,
-                              state: emp,
+                              state: { emp },
                             }}
                             type="button"
                             className="btn btn-success btn-sm m-1"

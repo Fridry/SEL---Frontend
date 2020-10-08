@@ -5,9 +5,10 @@ import api from "../../../services/api";
 import { getToken } from "../../../utils/Autentication";
 import Template from "../../../components/Template";
 
-const Novo = (state) => {
+const Novo = ({ location }) => {
   const history = useHistory();
-  const data = state.location.state;
+  const data = location.state.emp;
+  const renovacao = location.state.renovacao ? location.state.renovacao : false;
 
   const [livro, setLivro] = useState({
     id: data ? data.livroId : "",
@@ -35,12 +36,19 @@ const Novo = (state) => {
       return;
     }
 
-    const dataEmp = {
-      usuario_id: usuario.id,
-      livro_id: livro.id,
-      devolvido: true,
-      data_da_devolucao: dataDevolucao,
-    };
+    const dataEmp = renovacao
+      ? {
+          usuario_id: usuario.id,
+          livro_id: livro.id,
+          data_para_devolucao: dataDevolucao,
+          renovacao: true,
+        }
+      : {
+          usuario_id: usuario.id,
+          livro_id: livro.id,
+          devolvido: true,
+          data_da_devolucao: dataDevolucao,
+        };
 
     try {
       await api.put(`/emprestimos/${data.id}`, dataEmp, {
@@ -73,7 +81,9 @@ const Novo = (state) => {
   };
 
   return (
-    <Template title="Devolver livro">
+    <Template
+      title={renovacao ? "Renovar empréstimo de livro" : "Devolver livro"}
+    >
       <div className="card">
         <div className="card-body px-5">
           {msg[0] && (
@@ -116,12 +126,13 @@ const Novo = (state) => {
             </div>
 
             <div className="form-group mt-3">
-              <label htmlFor="data_para_devolucao">Data de devolução</label>
+              <label htmlFor="data_para_devolucao">
+                {renovacao ? "Data para devolução" : "Data de devolução"}
+              </label>
               <input
                 type="date"
                 className="form-control"
                 id="data_para_devolucao"
-                placeholder="Data para devolução"
                 required
                 name="data_para_devolucao"
                 value={dataDevolucao}
