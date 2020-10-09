@@ -11,10 +11,16 @@ const Listar = () => {
   const [pages, setPages] = useState([]);
   const [totalPages, setTotalPages] = useState([]);
   const [total, setTotal] = useState(0);
+  const [loader, setLoader] = useState(false);
+  const [msg, setMsg] = useState([]);
+
   const [titulo, setTitulo] = useState("");
   const [usuario, setUsuario] = useState("");
   const [limit, setLimit] = useState(10);
-  const [loader, setLoader] = useState(false);
+  const [status, setStatus] = useState("");
+  const [dataParaDevolucao, setDataParaDevolucao] = useState("");
+  const [dataDeRetirada, setDataDeRetirada] = useState("");
+  const [dataDeDevolucao, setDataDeDevolucao] = useState("");
 
   useEffect(() => {
     setLoader(true);
@@ -41,6 +47,8 @@ const Listar = () => {
   }, [limit, page, total, totalPages]);
 
   const search = async (e) => {
+    e.preventDefault();
+
     setLoader(true);
     let queryTitulo = "";
     let queryUsuario = "";
@@ -62,6 +70,48 @@ const Listar = () => {
     setLoader(false);
   };
 
+  const searchDates = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+
+    try {
+      let queryStatus = "";
+      let queryDataParaDevolucao = "";
+      let queryDataDeRetirada = "";
+      let queryDataDeDevolucao = "";
+
+      if (status !== "")
+        queryStatus = `&devolvido=true&devolvidoStatus=${status}`;
+
+      if (dataParaDevolucao !== "")
+        queryDataParaDevolucao = `&data_para_devolucao=${dataParaDevolucao}`;
+
+      if (dataDeRetirada !== "")
+        queryDataDeRetirada = `&data_de_retirada=${dataDeRetirada}`;
+
+      if (dataDeDevolucao !== "")
+        queryDataDeDevolucao = `&data_da_devolucao=${dataDeDevolucao}`;
+
+      const response = await api.get(
+        `/emprestimos?${queryStatus}${queryDataParaDevolucao}${queryDataDeRetirada}${queryDataDeDevolucao}`
+      );
+
+      setEmprestimo(response.data);
+
+      setDataParaDevolucao("");
+      setDataDeRetirada("");
+      setDataDeDevolucao("");
+    } catch (error) {
+      setMsg(["info", `Nenhum empréstimo encontrado.`]);
+      setLoader(false);
+      clear();
+    }
+
+    setTimeout(() => setMsg([]), 5000);
+
+    setLoader(false);
+  };
+
   const dataDoEmprestimo = (data) => {
     let date = new Date(data);
 
@@ -73,6 +123,8 @@ const Listar = () => {
     setLimit(10);
     setTotal(0);
     setTotalPages([]);
+    setStatus("");
+    setDataParaDevolucao("");
   };
 
   const checkAtraso = (dataDev, devolvido) => {
@@ -91,6 +143,11 @@ const Listar = () => {
 
   return (
     <Template title="Empréstimos">
+      {msg[0] && (
+        <div className={`alert alert-${msg[0]} text-center`} role="alert">
+          {msg[1]}
+        </div>
+      )}
       {loader ? (
         <div className="d-flex justify-content-center mt-5">
           <div className="spinner-border" role="status">
@@ -165,29 +222,29 @@ const Listar = () => {
                       type="date"
                       className="form-control"
                       id="dataParaDevolucao"
-                      placeholder="Data para devolução"
+                      onChange={(e) => setDataParaDevolucao(e.target.value)}
                     />
                   </div>
 
                   <div className="form-group col-md-6">
-                    <label htmlFor="dataDeRetirada">Data de retirada</label>
+                    <label htmlFor="dataDeRetirada">Data da retirada</label>
                     <input
                       type="date"
                       className="form-control"
                       id="dataDeRetirada"
-                      placeholder="Data de retirada"
+                      onChange={(e) => setDataDeRetirada(e.target.value)}
                     />
                   </div>
                 </div>
 
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="inputEmail4">Data de devolução</label>
+                    <label htmlFor="inputEmail4">Data da devolução</label>
                     <input
                       type="date"
                       className="form-control"
                       id="dataDeEntrega"
-                      placeholder="Data de entrega"
+                      onChange={(e) => setDataDeDevolucao(e.target.value)}
                     />
                   </div>
                   <div className="form-group col-md-6">
@@ -198,7 +255,9 @@ const Listar = () => {
                         type="radio"
                         name="status"
                         id="entregue"
-                        value="entregue"
+                        value={true}
+                        onChange={() => setStatus(true)}
+                        checked={status === true}
                       />
                       <label className="form-check-label" htmlFor="entregue">
                         Entregue
@@ -210,13 +269,23 @@ const Listar = () => {
                         type="radio"
                         name="status"
                         id="naoEntregue"
-                        value="não entregue"
+                        value={false}
+                        onChange={() => setStatus(false)}
+                        checked={status === false}
                       />
                       <label className="form-check-label" htmlFor="naoEntregue">
                         Não entregue
                       </label>
                     </div>
                   </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block"
+                    onClick={searchDates}
+                  >
+                    Procurar
+                  </button>
                 </div>
               </form>
             </div>
@@ -311,8 +380,8 @@ const Listar = () => {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={8} className="text-center">
-                  <p>Total de livros cadastrados: {total}</p>
+                <td colSpan={9} className="text-center">
+                  <p>Total de empréstimos realizados: {total}</p>
                 </td>
               </tr>
             </tfoot>
