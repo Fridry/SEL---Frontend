@@ -28,7 +28,7 @@ const Novo = ({ location }) => {
   const submitDevolucao = async (e) => {
     e.preventDefault();
 
-    if (dataDevolucao === "") {
+    if (renovacao && dataDevolucao === "") {
       setMsg(["warning", "Data de devolução obrigtória."]);
 
       setTimeout(() => setMsg([]), 5000);
@@ -47,7 +47,6 @@ const Novo = ({ location }) => {
           usuario_id: usuario.id,
           livro_id: livro.id,
           devolvido: true,
-          data_da_devolucao: dataDevolucao,
         };
 
     try {
@@ -125,20 +124,20 @@ const Novo = ({ location }) => {
               </div>
             </div>
 
-            <div className="form-group mt-3">
-              <label htmlFor="data_para_devolucao">
-                {renovacao ? "Data para devolução" : "Data de devolução"}
-              </label>
-              <input
-                type="date"
-                className="form-control"
-                id="data_para_devolucao"
-                required
-                name="data_para_devolucao"
-                value={dataDevolucao}
-                onChange={(e) => setDataDevolucao(e.target.value)}
-              />
-            </div>
+            {renovacao ? (
+              <div className="form-group mt-3">
+                <label htmlFor="data_para_devolucao">Data para devolução</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="data_para_devolucao"
+                  required={renovacao ? renovacao : false}
+                  name="data_para_devolucao"
+                  value={dataDevolucao}
+                  onChange={(e) => setDataDevolucao(e.target.value)}
+                />
+              </div>
+            ) : null}
 
             <div className="form-group text-center">
               <button
