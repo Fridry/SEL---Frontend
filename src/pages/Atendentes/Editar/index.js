@@ -1,22 +1,32 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import api from "../../../services/api";
 import { getToken } from "../../../utils/Autentication";
 import Template from "../../../components/Template";
 
-const Novo = () => {
-  const [atendente, setAtendente] = useState({
-    nome: "",
-    data_nascimento: "",
-    cpf: "",
-    email: "",
-    telefone: "",
-    senha: "",
-  });
+const Editar = ({ location }) => {
+  const history = useHistory();
 
-  const [senhaConf, setSenhaConf] = useState("");
+  const getDate = (date) => date.split("T")[0];
+
+  let {
+    id,
+    nome,
+    data_nascimento,
+    cpf,
+    email,
+    telefone,
+  } = location.state.atendente;
+
+  const [atendente, setAtendente] = useState({
+    nome,
+    data_nascimento: getDate(data_nascimento),
+    cpf,
+    email,
+    telefone,
+  });
   const [msg, setMsg] = useState([]);
-  const [msgErr, setMsgErr] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,18 +34,15 @@ const Novo = () => {
     setAtendente((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const submitUser = async (e) => {
+  const goBack = () => {
+    history.push("/perfil");
+  };
+
+  const updateUser = async (e) => {
     e.preventDefault();
 
-    if (atendente.senha !== senhaConf) {
-      setMsgErr(["danger", "As senhas informadas não coincidem."]);
-      setTimeout(() => setMsgErr([]), 5000);
-
-      return;
-    }
-
     try {
-      await api.post("/atendentes", atendente, {
+      await api.put(`/atendentes/${id}`, atendente, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
@@ -47,21 +54,21 @@ const Novo = () => {
         cpf: "",
         email: "",
         telefone: "",
-        senha: "",
-        setSenhaConf: "",
       });
 
-      setMsg(["success", "Atendente adicionado com sucesso."]);
+      setMsg(["success", "Atendente atualizado com sucesso."]);
+
+      goBack();
     } catch (error) {
       console.log({ error });
-      setMsg(["danger", "Erro ao cadastrar atendente."]);
+      setMsg(["danger", "Erro ao atualizar atendente."]);
     }
 
     setTimeout(() => setMsg([]), 5000);
   };
 
   return (
-    <Template title="Novo Atendente">
+    <Template title="Editar Atendente">
       <div className="card">
         <div className="card-body px-5">
           {msg[0] && (
@@ -113,19 +120,6 @@ const Novo = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="telefone">Telefone</label>
-              <input
-                type="phone"
-                className="form-control"
-                id="telefone"
-                placeholder="Telefone"
-                name="telefone"
-                value={atendente.telefone}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -138,49 +132,40 @@ const Novo = () => {
               />
             </div>
 
-            {msgErr[0] && (
-              <div
-                className={`alert alert-${msgErr[0]} text-center`}
-                role="alert"
-              >
-                {msgErr[1]}
-              </div>
-            )}
-
             <div className="form-group">
-              <label htmlFor="senha">Senha</label>
+              <label htmlFor="telefone">Telefone</label>
               <input
-                type="password"
+                type="phone"
                 className="form-control"
-                id="senha"
-                placeholder="Senha"
-                name="senha"
-                value={atendente.senha}
+                id="telefone"
+                placeholder="Telefone"
+                name="telefone"
+                value={atendente.telefone}
                 onChange={handleInputChange}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="senhaConf">Confirmar senha</label>
-              <input
-                type="password"
-                className="form-control"
-                id="senhaConf"
-                placeholder="Confirmar senha"
-                name="senha"
-                value={senhaConf}
-                onChange={(e) => setSenhaConf(e.target.value)}
-              />
-            </div>
-
             <div className="form-group text-center">
-              <button
-                className="btn btn-primary mt-5 btn-block"
-                type="submit"
-                onClick={submitUser}
-              >
-                Salvar atendente
-              </button>
+              <div className="row">
+                <div className="col-6">
+                  <button
+                    className="btn btn-primary float-left btn-block"
+                    type="submit"
+                    onClick={updateUser}
+                  >
+                    Atualizar usuário
+                  </button>
+                </div>
+                <div className="col-6">
+                  <button
+                    className="btn btn-secondary float-right btn-block"
+                    type="submit"
+                    onClick={goBack}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -189,4 +174,4 @@ const Novo = () => {
   );
 };
 
-export default Novo;
+export default Editar;

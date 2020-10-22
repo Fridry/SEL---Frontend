@@ -6,6 +6,7 @@ const Menu = ({ toggleSidebar }) => {
 
   const logout = () => {
     localStorage.removeItem("@Token");
+    localStorage.removeItem("@Id");
     history.push("/login");
   };
 
@@ -40,13 +41,13 @@ const Menu = ({ toggleSidebar }) => {
             className="dropdown-menu dropdown-menu-right"
             aria-labelledby="userDropdown"
           >
-            <a className="dropdown-item" href="!#">
+            <a className="dropdown-item" href="/perfil">
               <i className="far fa-id-badge"></i> Perfil
             </a>
             <a className="dropdown-item" href="!#">
               <i className="fas fa-question"></i> Ajuda
             </a>
-            <a className="dropdown-item" href="!#">
+            <a className="dropdown-item" href="/configuracoes">
               <i className="fas fa-user-cog"></i> Configurações
             </a>
             <div className="dropdown-divider"></div>

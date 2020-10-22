@@ -1,4 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
+
+import { getId } from "../utils/Autentication";
 
 import SidebarNavItem from "./SidebarNavItem";
 import SidebarNavLink from "./SidebarNavLink";
@@ -16,6 +18,8 @@ const employee = "fas fa-user-tie";
 const info = "fas fa-info";
 
 const Sidebar = () => {
+  const id = getId();
+
   return (
     <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
       <div className="sb-sidenav-menu">
@@ -83,28 +87,32 @@ const Sidebar = () => {
             ]}
           />
 
-          <div className="sb-sidenav-menu-heading">Atendentes</div>
-          <SidebarNavItem
-            title="Atendentes"
-            icon={employee}
-            navLinkData={[
-              {
-                navLinkTitle: "Perfil",
-                navLinkUrl: "!#",
-                navLinkIcon: info,
-              },
-              {
-                navLinkTitle: "Cadastrar",
-                navLinkUrl: "/novo-atendente",
-                navLinkIcon: newUser,
-              },
-              {
-                navLinkTitle: "Listar",
-                navLinkUrl: "/listar-atendentes",
-                navLinkIcon: list,
-              },
-            ]}
-          />
+          {id === "1" && (
+            <Fragment>
+              <div className="sb-sidenav-menu-heading">Atendentes</div>
+              <SidebarNavItem
+                title="Atendentes"
+                icon={employee}
+                navLinkData={[
+                  {
+                    navLinkTitle: "Perfil",
+                    navLinkUrl: "/perfil",
+                    navLinkIcon: info,
+                  },
+                  {
+                    navLinkTitle: "Cadastrar",
+                    navLinkUrl: "/novo-atendente",
+                    navLinkIcon: newUser,
+                  },
+                  {
+                    navLinkTitle: "Listar",
+                    navLinkUrl: "/listar-atendentes",
+                    navLinkIcon: list,
+                  },
+                ]}
+              />
+            </Fragment>
+          )}
         </div>
       </div>
     </nav>

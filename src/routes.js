@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NovoAtendente from "./pages/Atendentes/Novo";
 import ListarAtendentes from "./pages/Atendentes/Listar";
+import EditarAtendentes from "./pages/Atendentes/Editar";
+import Perfil from "./pages/Atendentes/Perfil";
 import NovoEmprestimo from "./pages/Emprestimos/Novo";
 import ListarEmprestimos from "./pages/Emprestimos/Listar";
 import Devolucao from "./pages/Emprestimos/Editar";
@@ -17,6 +19,7 @@ import ListarUsuarios from "./pages/Usuarios/Listar";
 import EditarUsuario from "./pages/Usuarios/Editar";
 import NotFound from "./pages/404";
 import Login from "./pages/Login";
+import Configuracoes from "./pages/Configuracoes";
 
 import PrivateRoute from "./utils/PrivateRoute";
 
@@ -72,7 +75,17 @@ const Routes = () => {
           <ListarUsuarios />
         </Route>
 
+        <Route exact path="/configuracoes">
+          <Configuracoes />
+        </Route>
+
         <Route exact path="/editar-usuario/:id" component={EditarUsuario} />
+
+        <Route exact path="/editar-atendente" component={EditarAtendentes} />
+
+        <Route exact path="/perfil">
+          <Perfil />
+        </Route>
 
         <Route path="*">
           <NotFound />

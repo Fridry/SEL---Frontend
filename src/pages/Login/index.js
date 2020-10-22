@@ -22,7 +22,8 @@ const Login = () => {
         });
 
         if (result.data) {
-          localStorage.setItem("@Token", result.data);
+          localStorage.setItem("@Token", result.data.token);
+          localStorage.setItem("@Id", result.data.id);
         }
 
         history.push("/");
